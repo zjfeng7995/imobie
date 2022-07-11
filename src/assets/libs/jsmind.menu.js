@@ -105,9 +105,17 @@
                     },
                     text: 'show all'
                 },
+                setBgColor: {
+                    isDepNode: false,
+                    fn: function () {
+                        // this.handler_paint(this)
+                    },
+                    text: 'paint node'
+                },
                 hideAll: {
                     isDepNode: false,
                     fn: function () {
+                        console.log(this);
                         this.collapse_all(this)
                     },
                     text: 'hide all'
@@ -139,8 +147,7 @@
                 }
             },
             menuStl: {
-                'width': '150px',
-                'padding': '12px 0',
+                'padding': '12px 20px',
                 'position': 'fixed',
                 'z-index': '10',
                 'background': '#fff',
@@ -150,10 +157,11 @@
                 'display': 'none'
             },
             menuItemStl: {
-                padding: '5px 15px',
+                padding: '5px 9px',
                 cursor: 'pointer',
-                display: 'block',
-                'text-align': 'center',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
                 'transition': 'all .2s'
             },
             injectionList: ['edit', 'addChild', 'delete']
@@ -176,12 +184,22 @@
             e.preventDefault()
             this.menu.style.left = e.clientX + 'px'
             this.menu.style.top = e.clientY + 'px'
-            this.menu.style.display = 'block'
+            this.menu.style.display = 'flex'
             this.selected_node = this.jm.get_selected_node()
         },
 
-        _event_hideMenu() {
-            this.menu.style.display = 'none'
+        _event_hideMenu(e) {
+            e.preventDefault()
+            if (e.target.nodeName == 'JMNODE') {
+                const nodePosition = e.target.getBoundingClientRect(),
+                    isRoot = e.target.className.includes('root');
+                this.menu.style.left = nodePosition.x + 21 + 'px'
+                this.menu.style.top = nodePosition.y - 67 + 'px'
+                this.menu.style.display = 'flex'
+                this.selected_node = this.jm.get_selected_node()
+            } else {
+                this.menu.style.display = 'none'
+            }
         },
 
         _mount_events() {
@@ -196,11 +214,22 @@
             this.e_panel = _jm.view.e_panel
             this.e_panel.appendChild(d)
         },
-
-        _create_menu_item(j, text, fn, isDepNode, cb, defaultFn) {
+        getIconStyle(config){
+            let icon = config.icon ? `url(${config.icon}) center center` : 'red';
+            return `
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                background: ${icon};
+            `
+        },
+        _create_menu_item(j, text, fn, isDepNode, cb, defaultFn, config) {
             var d = $c('menu-item'); var _this = this
             this._set_menu_item_syl(d)
-            d.innerText = text
+            d.title = text;
+            const icon = $c('span')
+            icon.style.cssText = this.getIconStyle(config);
+            d.appendChild(icon)
             d.addEventListener('click', function () {
                 if (this.selected_node || !isDepNode) {
                     defaultFn.call(_this, this.selected_node)
@@ -314,7 +343,7 @@
                 }
 
                 if (o.defaultFn) defaultFn = o.defaultFn
-                _this.menu.appendChild(_this._create_menu_item(j, text, o.fn, o.isDepNode, callback, defaultFn))
+                _this.menu.appendChild(_this._create_menu_item(j, text, o.fn, o.isDepNode, callback, defaultFn, k))
             })
         },
 

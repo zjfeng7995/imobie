@@ -9,7 +9,7 @@ module.exports = {
     },
     configureWebpack: {
         name: 'Imobie Vue Admin',
-        devtool: 'source-map',
+        devtool: 'cheap-module-source-map',
         resolve: {
             alias: {
                 '@AST': resolve('src/assets')

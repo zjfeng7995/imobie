@@ -16,6 +16,7 @@ import jm from "vue-jsmind"
 import '@AST/libs/jsmind.menu.js'
 import nodeData from '@AST/libs/nodetree.js'
 import 'vue-jsmind/src/components/JsMind/jsmind.css'
+import iconNodeChild from '@AST/icons/node-child.png'
 
 Vue.use(jm)
 if (window.jsMind) {
@@ -57,19 +58,19 @@ export default {
                     showMenu: true,
                     injectionList: [
                         {
-                            target: 'edit', text: '编辑节点',
-                            callback: function (node) {
-                                console.log(node)
-                            }
-                        },
-                        {
-                            target: 'addChild', text: '添加子节点',
-                            callback: function (node) {
-                                console.log(node)
-                            }
-                        },
-                        {
                             target: 'addBrother', text: '添加兄弟节点',
+                            callback: function (node) {
+                                console.log(node)
+                            }
+                        },
+                        {
+                            target: 'addChild', text: '添加子节点', icon: iconNodeChild,
+                            callback: function (node) {
+                                console.log(node)
+                            }
+                        },
+                        {
+                            target: 'edit', text: '编辑节点', icon: '',
                             callback: function (node) {
                                 console.log(node)
                             }
@@ -82,26 +83,12 @@ export default {
                             }
                         },
                         {
-                            target: 'screenshot', text: '下载导图',
+                            target: 'setBgColor', text: '设置主题色',
                             callback: function (node, next) {
                                 console.log(node)
                                 console.log(next)
                             }
-                        },
-                        {
-                            target: 'showAll', text: '展开全部节点',
-                            callback: function (node, next) {
-                                console.log(node)
-                                console.log(next)
-                            }
-                        },
-                        {
-                            target: 'hideAll', text: '收起全部节点',
-                            callback: function (node, next) {
-                                console.log(node)
-                                console.log(next)
-                            }
-                        },
+                        }
                     ],
                 },
             },
