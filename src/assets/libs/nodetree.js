@@ -1,51 +1,39 @@
 export default {
-    "data": [
+    id: 'root',
+    topic: '主题',
+    children: [
         {
-            "children": [
-                {
-                    "children": [
-                        {
-                            "id": "8",
-                            "topic": "专家信息"
-                        }
-                    ],
-                    "id": "3",
-                    "topic": "教师信息"
-                },
-                {
-                    "children": [],
-                    "id": "4",
-                    "topic": "人才称号"
-                },
-                {
-                    "children": [
-                        {
-                            "id": "9",
-                            "topic": "教学团队"
-                        }
-                    ],
-                    "id": "5",
-                    "topic": "创新团队"
-                }
-            ],
-            "id": "1",
-            "topic": "师资队伍"
-        },
-        {
-            "children": [
-                {
-                    "children": [],
-                    "id": "6",
-                    "topic": "国家级科研教学平台"
-                },
-                {
-                    "children": [],
-                    "id": "7",
-                    "topic": "学科平台"
-                }
-            ],
-            "id": "2",
-            "topic": "支撑平台"
+            id: 'child1', // [必选] ID, 所有节点的ID不应有重复，否则ID重复的结节将被忽略
+            topic: '节点 节点 节点', // [必选] 节点上显示的内容
+            direction: 'right', // [可选] 节点的方向，此数据仅在第一层节点上有效，目前仅支持 left 和 right 两种，默认为 right
+            expanded: true, // [可选] 该节点是否是展开状态，默认为 true
+            children: [
+                { id: 'child1-1', topic: '节点 节点 节点' }
+            ]
+        }, {
+            id: 'child2',
+            topic: '节点 节点 节点',
+            direction: 'right',
+            expanded: true,
+            children: [
+                { id: 'child2-1', topic: '节点 节点 节点' }
+            ]
+        }, {
+            id: 'child3',
+            topic: '节点 节点 节点',
+            direction: 'right',
+            expanded: true,
+            children: [
+                { id: 'child3-1', topic: '节点 节点 节点' }
+            ]
+        }, {
+            id: 'child4',
+            topic: '节点 节点 节点',
+            direction: 'right',
+            expanded: true,
+            children: [
+                { id: 'child4-1', topic: '节点 节点 节点' }
+            ]
         }
     ]
 }

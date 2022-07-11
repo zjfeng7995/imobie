@@ -1,14 +1,20 @@
 <template>
 	<div class="home">
-		<Xmind1 />
+		<Xmind />
 	</div>
 </template>
 
 <script>
-import Xmind1 from '@/components/jsmind.vue'
+import Xmind from '@/components/myMind.vue'
 
 export default {
 	name: 'Home',
-	components: { Xmind1 }
+	components: { Xmind }
 }
 </script>
+<style lang="less" scoped>
+
+.home{
+	height: 100vh;
+}
+</style>
