@@ -6,6 +6,7 @@ module.exports = {
     lintOnSave: false,
     css: {
         sourceMap: true,
+        extract: process.env.NODE_ENV === "production",
     },
     configureWebpack: {
         name: 'Imobie Vue Admin',

@@ -1,11 +1,5 @@
 <template>
     <div class="brain_content">
-        <div class="header_btn">
-            <el-button @click='zoomOut' ref="zoomOut">缩小</el-button>
-            <el-button @click='zoomIn' ref="zoomIn">放大</el-button>
-            <el-button @click="addNode">添加节点</el-button>
-            <el-button @click="onRemoveNode">删除节点</el-button>
-        </div>
         <js-mind class="js_mind" :options="options" :values="mind" v-show="isShow" ref="jsMind" height="100%"></js-mind>
     </div>
 </template>
@@ -16,7 +10,12 @@ import jm from "vue-jsmind"
 import '@AST/libs/jsmind.menu.js'
 import nodeData from '@AST/libs/nodetree.js'
 import 'vue-jsmind/src/components/JsMind/jsmind.css'
+import iconDelete from '@AST/icons/delete.png'
+import iconEdit from '@AST/icons/edit.png'
 import iconNodeChild from '@AST/icons/node-child.png'
+import iconNode from '@AST/icons/node.png'
+import iconMessage from '@AST/icons/message.png'
+import iconTriangle from '@AST/icons/triangle.png'
 
 Vue.use(jm)
 if (window.jsMind) {
@@ -58,7 +57,7 @@ export default {
                     showMenu: true,
                     injectionList: [
                         {
-                            target: 'addBrother', text: '添加兄弟节点',
+                            target: 'addBrother', text: '添加兄弟节点', icon: iconNode,
                             callback: function (node) {
                                 console.log(node)
                             }
@@ -70,20 +69,20 @@ export default {
                             }
                         },
                         {
-                            target: 'edit', text: '编辑节点', icon: '',
+                            target: 'edit', text: '编辑节点', icon: '', icon: iconEdit,
                             callback: function (node) {
                                 console.log(node)
                             }
                         },
                         {
-                            target: 'delete', text: '删除节点',
+                            target: 'delete', text: '删除节点', icon: iconDelete,
                             callback: function (node, next) {
                                 console.log(node)
                                 console.log(next)
                             }
                         },
                         {
-                            target: 'setBgColor', text: '设置主题色',
+                            target: 'setBgColor', text: '设置主题色', icon: iconTriangle,
                             callback: function (node, next) {
                                 console.log(node)
                                 console.log(next)
@@ -97,36 +96,6 @@ export default {
         }
     },
     methods: {
-        // 缩小
-        zoomOut() {
-            if (this.jm.view.zoomOut()) {
-                this.$refs.zoomOut.disabled = false
-            } else {
-                this.$refs.zoomOut.disabled = true
-            }
-        },
-        // 放大
-        zoomIn() {
-            if (this.jm.view.zoomIn()) {
-                this.$refs.zoomIn.disabled = false
-            } else {
-                this.$refs.zoomIn.disabled = true
-            }
-        },
-        // 新增节点
-        addNode() {
-            var selectedNode = this.jm.get_selected_node() // as parent of new node
-            if (!selectedNode) { alert('请先选择一个节点'); return }
-            var nodeid = this.jsMind.util.uuid.newid()
-            var topic = '请输入子节点名称'
-            this.jm.add_node(selectedNode, nodeid, topic)
-        },
-        // 删除节点 
-        onRemoveNode() {
-            var selectedId = this.get_selected_nodeid()
-            if (!selectedId) { alert('请先选择一个节点'); return }
-            this.jm.remove_node(selectedId)
-        },
         // 获取选中标签的 ID
         get_selected_nodeid() {
             var selectedNode = this.jm.get_selected_node()
@@ -149,7 +118,6 @@ export default {
 </script>
  
 <style lang="less" scoped>
-
 .brain_content {
     background: #fafafa;
     height: 100%;
@@ -157,13 +125,12 @@ export default {
     display: flex;
     flex-direction: column;
 
-    .header_btn {
-        height: 40px;
-        line-height: 40px;
-    }
-
     .js_mind {
         flex: 1;
+
+        /deep/ svg {
+            position: absolute;
+        }
     }
 }
 </style>
