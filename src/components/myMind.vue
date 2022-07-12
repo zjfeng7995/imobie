@@ -44,7 +44,7 @@ export default {
                 view: {
                     engine: 'svg',   // 思维导图各节点之间线条的绘制引擎
                     hmargin: 100,        // 思维导图距容器外框的最小水平距离
-                    vmargin: 50,         // 思维导图距容器外框的最小垂直距离
+                    vmargin: 100,         // 思维导图距容器外框的最小垂直距离
                     line_width: 2,       // 思维导图线条的粗细
                     line_color: '#3e3e3e',   // 思维导图线条的颜色
                 },
@@ -104,6 +104,14 @@ export default {
             } else {
                 return null
             }
+        },
+        setDefaultColor(list){
+            list.forEach(item => {
+                if (item.bgColor){
+                    this.jm.set_node_color(item.id, item.bgColor, item.bgColor === '#ffffff' ? '#333' : '#fff')
+                }
+                if (Array.isArray(item.children)) this.setDefaultColor(item.children);
+            })
         }
     },
     mounted() {
@@ -113,11 +121,13 @@ export default {
         };
         this.jm = this.$refs.jsMind.jm
         this.jm.enable_edit()
+        this.setDefaultColor([this.mind.data])
     },
 }
 </script>
  
 <style lang="less" scoped>
+
 .brain_content {
     background: #fafafa;
     height: 100%;
@@ -127,7 +137,45 @@ export default {
 
     .js_mind {
         flex: 1;
-
+        /deep/ .node_detail{
+            color: red;
+            text-align: left;
+            padding-left: 10px;
+            position: relative;
+            span.pic{
+                position: absolute;
+                width: 24px;
+                height: 24px;
+                line-height: 24px;
+                text-align: center;
+                border-radius: 3px;
+                top: 13px;
+                color: #fff;
+                background: #43ba5c;
+            }
+            p{
+                padding-left: 40px;
+                font-size: 12px;
+                height: 25px;
+                line-height: 25px;
+            }
+            p:first-of-type {
+                margin-top: 5px;
+                color: #333;
+            }
+            p:last-of-type {
+                color: #666;
+                .icon{
+                    vertical-align: middle;
+                    display: inline-block;
+                    width: 12px;
+                    height: 12px;
+                    margin: 0 4px 0 10px;
+                    background: url('~@/assets/icons/message.png') center center;
+                }
+            }
+                        
+        }
         /deep/ svg {
             position: absolute;
         }

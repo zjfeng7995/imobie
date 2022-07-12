@@ -156,6 +156,7 @@
                 'box-shadow': '0 2px 12px 0 rgba(0,0,0,0.1)',
                 'border-radius': '5px',
                 'font-size': '12px',
+                'transform': 'translateX(-50%)',
                 'display': 'none'
             },
             menuItemStl: {
@@ -201,12 +202,16 @@
                 // 设置菜单颜色
                 let nodeData = this.jm.get_selected_node().data;
                 this.setMenuColor(nodeData?.bgColor ?? '#ffffff')
+                // 设置选中节点颜色
+                if (nodeData['background-color']){
+                    this.jm.set_node_color(this.selected_node.id, nodeData['background-color'], nodeData['foreground-color'] ?? '#fff')
+                } 
                 // 设置根节点菜单
                 const isRoot = e.target.className.includes('root');
                 this.setMenuItemShow(isRoot)
                 // 设置菜单定位位置
                 const nodePosition = e.target.getBoundingClientRect();
-                this.menu.style.left = nodePosition.x + 21 + 'px'
+                this.menu.style.left = nodePosition.x + 150 + 'px'
                 this.menu.style.top = nodePosition.y - 67 + 'px'
                 this.menu.style.display = 'flex'
             } else {
@@ -240,6 +245,9 @@
             this.menu = d
             this.e_panel = _jm.view.e_panel
             this.e_panel.appendChild(d)
+            document.querySelector('.jsmind-inner').onscroll = () => {
+                this.menu.style.display = 'none';
+            };
         },
         getIconStyle(config) {
             return config.target !== 'setBgColor' ? `
@@ -302,14 +310,18 @@
         colorSelectShow(container, cb) {
             let selectedNode = this.selected_node;
             this.setColorPicked(container, selectedNode?.data?.bgColor);
-            let colorPickBox = container.querySelector('.color_picker_container');
-            colorPickBox.style.display = colorPickBox.style.display == 'none' ? 'grid' : 'none';
+            setTimeout(() => {
+                let colorPickBox = container.querySelector('.color_picker_container');
+                colorPickBox.style.display = colorPickBox.style.display == 'none' ? 'grid' : 'none';
+                
+            });
             let pickes = container.querySelectorAll('p');
             pickes.forEach(pickItem => {
                 pickItem.onclick = (e) => {
                     e.stopPropagation();
                     let colorPick = pickItem.getAttribute('data-color');
                     selectedNode.data = { bgColor: colorPick }
+
                     this.setMenuColor(colorPick);
                     this.jm.set_node_color(selectedNode.id, colorPick, colorPick === '#ffffff' ? '#333' : '#fff')
                     this.setColorPicked(container, colorPick);
@@ -325,6 +337,7 @@
                 pickItem.firstChild.style.display = colorPick === color ? 'block' : 'none';
             })
         },
+        // 创建菜单项
         _create_menu_item(j, text, fn, isDepNode, cb, defaultFn, config) {
             function menuHandler() {
                 defaultFn.call(this, this.selected_node)
@@ -346,7 +359,7 @@
             const isSetColor = config.target == 'setBgColor';
             var d = $c('menu-item');
             d.setAttribute('data-type', config.target)
-            d.style.cssText = `display: flex; justify-content: center;align-items: center,`
+            d.style.cssText = `display: flex; justify-content: center;align-items: center;`
             var Div = $c('div');
             this._set_menu_item_syl(Div)
             Div.title = text;
