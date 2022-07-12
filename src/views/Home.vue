@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Xmind from '@/components/myMind.vue'
+import Xmind from '@/components/xMind.vue'
 
 export default {
 	name: 'Home',

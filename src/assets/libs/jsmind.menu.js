@@ -310,11 +310,8 @@
         colorSelectShow(container, cb) {
             let selectedNode = this.selected_node;
             this.setColorPicked(container, selectedNode?.data?.bgColor);
-            setTimeout(() => {
-                let colorPickBox = container.querySelector('.color_picker_container');
-                colorPickBox.style.display = colorPickBox.style.display == 'none' ? 'grid' : 'none';
-                
-            });
+            let colorPickBox = container.querySelector('.color_picker_container');
+            colorPickBox.style.display = colorPickBox.style.display == 'none' ? 'grid' : 'none';
             let pickes = container.querySelectorAll('p');
             pickes.forEach(pickItem => {
                 pickItem.onclick = (e) => {
