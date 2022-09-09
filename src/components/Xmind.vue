@@ -187,3 +187,13 @@ export default {
 	}
 }
 </style>
+<style lang="less">
+	/* imobie theme */
+	jmnodes.theme-imobie jmnode{background-color:#fff;color:#000; width: 300px; height: 80px;line-height: 60px;text-align: center;box-shadow: none;border: 1px solid #e6e6e6;}
+	jmnodes.theme-imobie jmnode input.jsmind-editor{color: #000;height: 32px;line-height: 20px;transform: translateY(-5px);padding: 6px;background-color: #fff;}
+	jmnodes.theme-imobie jmnode:hover{background-color:#f5f5f5;}
+	jmnodes.theme-imobie jmnode.selected{}
+	jmnodes.theme-imobie jmnode.root{}
+	jmnodes.theme-imobie jmexpander{width: 0; height: 0;}
+	jmnodes.theme-imobie jmexpander:hover{}
+</style>
